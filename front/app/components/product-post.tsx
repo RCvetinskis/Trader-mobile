@@ -1,29 +1,26 @@
 import React from "react";
 import { Product } from "../api/product-api";
 import { Button, Card, Text } from "react-native-paper";
+import { productPostStyles } from "../styles/products/product-post.styles";
 type Props = {
   product: Product;
 };
 const ProductPost = ({ product }: Props) => {
   return (
-    <Card style={styles.card}>
+    <Card style={productPostStyles.card}>
       <Card.Title title={product.title} />
       <Card.Content>
         <Text variant="bodyMedium">{product.body}</Text>
       </Card.Content>
-      <Card.Cover source={{uri:'https://picsum.photos/700'}}/>
+      <Card.Cover
+        source={{ uri: "https://picsum.photos/700" }}
+        style={productPostStyles.image}
+      />
       <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
+        <Button>Buy</Button>
       </Card.Actions>
     </Card>
   );
 };
 
-const styles = {
-  card: {
-    marginTop: 10,
-    marginBottom: 50,
-  },
-};
 export default ProductPost;
