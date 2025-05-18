@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/drawer";
 import { View, StyleSheet } from "react-native";
 import { useAuthStore } from "../stores/auth-store";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CustomDrawerContent = (props: any) => {
   const { logout } = useAuthStore();
@@ -15,14 +16,14 @@ const CustomDrawerContent = (props: any) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
-      <View style={styles.logoutContainer}>
+      <SafeAreaView style={styles.logoutContainer}>
         <DrawerItem
           label="Logout"
           onPress={() => {
             if (logout) logout();
           }}
         />
-      </View>
+      </SafeAreaView>
     </View>
   );
 };
