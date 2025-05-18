@@ -1,4 +1,5 @@
-import {API_URL} from '@env';
+import { API_URL } from "@env";
+
 
 export interface Product {
   id: number;
