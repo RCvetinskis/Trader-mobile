@@ -1,4 +1,4 @@
-import { API_URL } from "@env";
+import { API_v1 } from "../constants";
 
 
 export interface Product {
@@ -15,7 +15,7 @@ export const getProducts = async () => {
     },
   };
 
-  const resposne = await fetch(`${API_URL}/posts`, requestInfo);
+  const resposne = await fetch(`${API_v1}/posts`, requestInfo);
   const posts = await resposne.json();
 
   return posts;
