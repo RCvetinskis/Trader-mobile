@@ -13,6 +13,7 @@ import { RootStackParamList } from "../../lib/types";
 
 import Toast from "react-native-toast-message";
 import { useAuthStore } from "../../stores/auth-store";
+import ScreenContainer from "../../components/screen-container";
 type FormData = z.infer<typeof loginSchema>;
 
 const LoginScreen = () => {
@@ -56,7 +57,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={authStyles.container}>
+    <ScreenContainer style={authStyles.container}>
       <Text variant="titleLarge" style={authStyles.heading}>
         Welcome to Trader!
       </Text>
@@ -120,7 +121,7 @@ const LoginScreen = () => {
       >
         Login
       </Button>
-    </View>
+    </ScreenContainer>
   );
 };
 

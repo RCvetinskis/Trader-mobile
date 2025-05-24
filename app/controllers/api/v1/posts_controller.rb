@@ -1,4 +1,5 @@
 class Api::V1::PostsController < ApplicationController
+  before_action :authorize!, only: %i[index create update destroy]
   before_action :set_post, only: %i[ show update destroy ]
 
   # GET /posts
@@ -46,6 +47,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body ])
+      params.expect(post: [ :title, :description, :category_id, images: [] ])
     end
 end

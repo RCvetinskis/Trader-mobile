@@ -6,4 +6,8 @@ export interface Product {
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
+  Home: undefined;
+  Posts: undefined;
 };
+
+export type ImageType = { uri: string; name: string; type: string };

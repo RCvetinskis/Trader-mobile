@@ -12,6 +12,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../lib/types";
 import { registerUser } from "../../lib/api/user-api";
 import Toast from "react-native-toast-message";
+import ScreenContainer from "../../components/screen-container";
 type FormData = z.infer<typeof registerSchema>;
 
 const RegisterScreen = () => {
@@ -57,7 +58,7 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={authStyles.container}>
+    <ScreenContainer style={authStyles.container}>
       <Text variant="titleLarge" style={authStyles.heading}>
         Welcome to Trader!
       </Text>
@@ -158,7 +159,7 @@ const RegisterScreen = () => {
       >
         Register
       </Button>
-    </View>
+    </ScreenContainer>
   );
 };
 

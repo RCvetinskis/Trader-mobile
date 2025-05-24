@@ -1,7 +1,7 @@
 import React from "react";
-import { Product } from "../api/product-api";
 import { Button, Card, Text } from "react-native-paper";
-import { productPostStyles } from "../styles/products/product-post.styles";
+import { productPostStyles } from "../../styles/products/product-post.styles";
+import { Product } from "../../lib/types";
 type Props = {
   product: Product;
 };
