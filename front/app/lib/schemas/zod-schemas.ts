@@ -19,3 +19,19 @@ export const registerSchema = commonAuth
     message: "Passwords don't match",
     path: ["repeatPassword"],
   });
+
+export const createPostSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Content is required"),
+  images: z
+    .array(
+      z.object({
+        uri: z.string(),
+        name: z.string(),
+        type: z.string(),
+      })
+    )
+    .min(1, "At least one image is required!"),
+  category_id: z.number().min(1, "Category is required"),
+  subcategory_id: z.number().optional(),
+});

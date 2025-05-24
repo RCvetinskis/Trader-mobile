@@ -1,5 +1,4 @@
-import { API_v1 } from "../constants";
-
+import apiClient from "./api-client";
 
 export interface Product {
   id: number;
@@ -8,15 +7,6 @@ export interface Product {
 }
 
 export const getProducts = async () => {
-  const requestInfo = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  const resposne = await fetch(`${API_v1}/posts`, requestInfo);
-  const posts = await resposne.json();
-
-  return posts;
+  const response = await apiClient.get("api/v1/posts");
+  return response.data;
 };

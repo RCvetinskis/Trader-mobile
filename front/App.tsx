@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   useSetToken();
+
   return (
     <QueryClientProvider client={queryClient}>
       <AppNavigation />

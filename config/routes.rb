@@ -8,9 +8,14 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }, defaults: { format: :json }
 
+  namespace :users do
+    post "token/refresh", to: "token#refresh"
+  end
+
   namespace :api do
     namespace :v1 do
       resources :posts
+      resources :categories
     end
   end
 end
