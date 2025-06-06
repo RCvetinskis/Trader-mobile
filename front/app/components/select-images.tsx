@@ -32,7 +32,7 @@ const SelectImages = ({ images, onChange }: Props) => {
       const selectedImages = result.assets.map((asset) => ({
         uri: asset.uri,
         name: asset.fileName ?? "image.jpg",
-        type: asset.type ?? "image/jpeg",
+        type: "image/jpeg",
       }));
       onChange(selectedImages);
     }

@@ -1,17 +1,17 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useEffect } from "react";
+import {  View } from "react-native";
 import { Text, TextInput, Button } from "react-native-paper";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPostSchema } from "../../lib/schemas/zod-schemas";
 import { commonStyles } from "../../styles/common.style";
-import Toast from "react-native-toast-message";
 import SelectImages from "../select-images";
 import { ImageType } from "../../lib/types";
-import RNPickerSelect from "react-native-picker-select";
 import useCategories from "../../hooks/useCategories";
 import CategorySelect from "./category-select";
+import { uploadPost } from "../../lib/api/posts-api";
+import useNav from "../../hooks/useNav";
 
 type FormData = z.infer<typeof createPostSchema>;
 
@@ -21,6 +21,7 @@ const PostForm = () => {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(createPostSchema),
@@ -28,79 +29,58 @@ const PostForm = () => {
       title: "",
       description: "",
       images: [],
-      category_id: undefined,
-      subcategory_id: undefined,
+      category_id: 0,
+      subcategory_id: 0,
     },
   });
   const images = watch("images") || [];
 
   const category = watch("category_id");
 
+  useEffect(() => {
+    setValue("subcategory_id", 0);
+  }, [category, setValue]);
+
+  const navigation = useNav();
+
   const handleImagesChange = (newImages: ImageType[]) => {
     setValue("images", newImages, { shouldValidate: true, shouldDirty: true });
   };
 
-  const onSubmit = async (data: FormData) => {
-    console.log(data);
+  const onSubmit = async (values: FormData) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      Toast.show({
-        type: "success",
-        text1: data.images.map((img) => img.name).join(),
-        text2: Object.values(data)
-          .map((val) => val)
-          .join(),
-      });
-    } catch (err) {
-      Toast.show({
-        type: "error",
-        text1: "Failed to create post",
-      });
-    }
+      await uploadPost(values);
+      reset();
+      navigation.navigate("Home");
+    } catch (error) {}
   };
 
-  const { data: categories, isLoading, isError } = useCategories();
-  // TODO: finish categories and sub categories and submit form to backend
-  const subCategories = [
-    {
-      parentId: 1,
-      id: 4,
-      name: "Phones",
-    },
-  ];
+  const { topLevelCategories, isTopLevelLoading, getSubCategoriesQuery } =
+    useCategories();
+
+  const subCategoriesQuery = getSubCategoriesQuery(category);
+  const subCategories = subCategoriesQuery.data ?? [];
+  // TODO: style form, display posts with images
   return (
     <View>
       <CategorySelect
-        categories={categories}
-        isLoading={isLoading}
-        isError={isError}
+        name="category_id"
+        placeholder="Select a category..."
+        categories={topLevelCategories}
+        isLoading={isTopLevelLoading}
         control={control}
         errors={errors}
       />
 
       {category && (
-        <>
-          <Controller
-            control={control}
-            name="subcategory_id"
-            render={({ field: { onChange, value } }) => (
-              <RNPickerSelect
-                onValueChange={onChange}
-                value={value}
-                items={subCategories.map((cat) => ({
-                  label: cat.name,
-                  value: cat.id,
-                }))}
-                placeholder={{ label: "Select a subcategory...", value: 0 }}
-              />
-            )}
-          />
-          {errors.subcategory_id && (
-            <Text style={commonStyles.error}>
-              {errors.subcategory_id.message}
-            </Text>
-          )}
-        </>
+        <CategorySelect
+          name="subcategory_id"
+          placeholder="Select a subcategory..."
+          categories={subCategories}
+          isLoading={subCategoriesQuery.isLoading}
+          control={control}
+          errors={errors}
+        />
       )}
       <Controller
         control={control}
@@ -112,7 +92,9 @@ const PostForm = () => {
             value={value}
             onChangeText={onChange}
             error={!!errors.title}
-            style={commonStyles.input}
+            style={commonStyles.textInput}
+            outlineColor="#e0e0e0"
+            selectionColor="#6c5ce755"
           />
         )}
       />
@@ -132,7 +114,9 @@ const PostForm = () => {
             value={value}
             onChangeText={onChange}
             error={!!errors.description}
-            style={commonStyles.input}
+            style={commonStyles.textInput}
+            outlineColor="#e0e0e0"
+            selectionColor="#6c5ce755"
           />
         )}
       />
@@ -159,3 +143,4 @@ const PostForm = () => {
 };
 
 export default PostForm;
+

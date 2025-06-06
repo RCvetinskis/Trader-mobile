@@ -32,6 +32,6 @@ export const createPostSchema = z.object({
       })
     )
     .min(1, "At least one image is required!"),
-  category_id: z.number().min(1, "Category is required"),
-  subcategory_id: z.number().optional(),
+  category_id: z.number().min(1, "Select category"),
+  subcategory_id: z.number().min(1, "Sub category is required"),
 });

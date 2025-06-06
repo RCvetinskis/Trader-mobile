@@ -17,9 +17,9 @@ class Api::V1::PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-
+    @post.user = current_user
     if @post.save
-      render json: @post, status: :created, location: api_v1_posts_url(@post)
+      render json: { message: "Succesfully created post." }, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :description, :category_id, images: [] ])
+      params.require(:post).permit(:title, :description, :category_id, images: [])
     end
 end
