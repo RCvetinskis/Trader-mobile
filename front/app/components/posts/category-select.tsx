@@ -8,9 +8,10 @@ import { Category } from "../../lib/api/category-api";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../lib/types";
-import { Button } from "react-native-paper";
+import { Button, useTheme } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import { commonStyles } from "../../styles/common.style";
+import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 type FormData = z.infer<typeof createPostSchema>;
 type Props = {
@@ -32,11 +33,12 @@ const CategorySelect = ({
 }: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+  const { colors } = useTheme();
+  const styles = useStyles(colors);
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="small" color="#6c5ce7" />
+        <ActivityIndicator size="small" color={colors.primary} />
       </View>
     );
   }
@@ -76,7 +78,7 @@ const CategorySelect = ({
                 <MaterialIcons
                   name="arrow-drop-down"
                   size={24}
-                  color="#6c5ce7"
+                  color={colors.primary}
                 />
               )}
               useNativeAndroidPickerStyle={false}
@@ -91,39 +93,34 @@ const CategorySelect = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 10,
-    marginTop:10,
-  },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    backgroundColor: "#fff",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  loadingContainer: {
-    padding: 16,
-    alignItems: "center",
-  },
-  emptyContainer: {
-    padding: 16,
-    alignItems: "center",
-  },
-  emptyText: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 12,
-  },
-
-
-});
+const useStyles = (colors: MD3Colors) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 10,
+      marginTop: 10,
+    },
+    pickerContainer: {
+      borderWidth: 1,
+      borderColor: colors.primary,
+      borderRadius: 10,
+      paddingHorizontal: 12,
+      backgroundColor: colors.background,
+      elevation: 2,
+    },
+    loadingContainer: {
+      padding: 16,
+      alignItems: "center",
+    },
+    emptyContainer: {
+      padding: 16,
+      alignItems: "center",
+    },
+    emptyText: {
+      fontSize: 16,
+      color: "#666",
+      marginBottom: 12,
+    },
+  });
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {

@@ -1,26 +1,17 @@
 import React from "react";
-import { View } from "react-native";
-import ProductPost from "../components/posts/product-post";
-import { getPosts, Post } from "../lib/api/posts-api";
-import { useQuery } from "@tanstack/react-query";
 import ScreenContainer from "../components/screen-container";
+import PostsList from "../components/posts/posts-list";
+import CategoriesNav from "../components/categories-nav";
+import SubcategoriesNav from "../components/subcategories-nav";
+import { Divider } from "react-native-paper";
 
 const HomeScreen = () => {
-  const {
-    data: posts,
-  } = useQuery<Post[], Error>({
-    queryKey: ["posts"],
-    queryFn: getPosts,
-  });
-
   return (
     <ScreenContainer>
-      {posts &&
-        posts.map((posts) => (
-          <View key={posts.id}>
-            <ProductPost product={posts} />
-          </View>
-        ))}
+      <CategoriesNav />
+      <Divider />
+      <SubcategoriesNav />
+      <PostsList />
     </ScreenContainer>
   );
 };
