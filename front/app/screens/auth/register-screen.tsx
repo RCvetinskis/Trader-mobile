@@ -94,7 +94,7 @@ const RegisterScreen = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             error={!!errors.email}
-            style={authStyles.input}
+            style={commonStyles.textInput}
           />
         )}
       />
@@ -114,7 +114,7 @@ const RegisterScreen = () => {
             onChangeText={onChange}
             secureTextEntry
             error={!!errors.password}
-            style={authStyles.input}
+            style={commonStyles.textInput}
           />
         )}
       />
@@ -133,7 +133,7 @@ const RegisterScreen = () => {
             onChangeText={onChange}
             secureTextEntry
             error={!!errors.repeatPassword}
-            style={authStyles.input}
+            style={commonStyles.textInput}
           />
         )}
       />

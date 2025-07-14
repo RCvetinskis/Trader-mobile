@@ -1,14 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
-import { Category, getCategories } from "../lib/api/category-api";
+import {
+  Category,
+  getCategories,
+  getSubCategories,
+} from "../lib/api/category-api";
 
 const useCategories = () => {
-  const query = useQuery<Category[]>({
+  const topLevelQuery = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
   });
+
+  const getSubCategoriesQuery = (parentId: number) => {
+    return useQuery<Category[]>({
+      queryKey: ["subCategories", parentId],
+      queryFn: () => getSubCategories(parentId),
+      enabled: !!parentId,
+    });
+  };
   return {
-    ...query,
-    data: query.data ?? [],
+    isTopLevelLoading: topLevelQuery.isLoading,
+    topLevelCategories: topLevelQuery.data ?? [],
+
+    getSubCategoriesQuery,
   };
 };
 

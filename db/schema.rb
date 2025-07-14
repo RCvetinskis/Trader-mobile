@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_24_135921) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_15_124956) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,14 +49,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_135921) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
-  create_table "post_images", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.text "image_data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_post_images_on_post_id"
-  end
-
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -64,6 +56,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_135921) do
     t.text "description"
     t.integer "user_id", null: false
     t.integer "category_id", null: false
+    t.decimal "price", precision: 10, scale: 2
+    t.boolean "trade"
     t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -88,7 +82,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_24_135921) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categories", "users"
-  add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end

@@ -1,13 +1,33 @@
 class Api::V1::PostsController < ApplicationController
-  before_action :authorize!, only: %i[index create update destroy]
+  # before_action :authorize!, only: %i[index create update destroy]
   before_action :set_post, only: %i[ show update destroy ]
 
-  # GET /posts
-  def index
-    @posts = Post.all
+# GET /posts
+def index
+  posts = Post.order(created_at: :desc)
 
-    render json: @posts
+  if params[:category_id].present?
+    category = Category.find_by(id: params[:category_id])
+
+    if category.present?
+      if category.subcategories.any?
+
+        subcategory_ids = category.subcategories.pluck(:id)
+        posts = posts.where(category_id: subcategory_ids)
+      else
+        posts = posts.where(category_id: category.id)
+      end
+    end
   end
+
+  if params[:query].present?
+    posts = posts.search_by_title(params[:query])
+  end
+
+  posts = posts.page(params[:page]).per(10)
+
+  render json: posts, each_serializer: PostSerializer, meta: pagination_dict(posts)
+end
 
   # GET /posts/1
   def show
@@ -17,9 +37,9 @@ class Api::V1::PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-
+    @post.user = current_user
     if @post.save
-      render json: @post, status: :created, location: api_v1_posts_url(@post)
+      render json: { message: "Succesfully created post." }, status: :created
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -42,11 +62,11 @@ class Api::V1::PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params.expect(:id))
+      @post = Post.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :description, :category_id, images: [] ])
+      params.require(:post).permit(:title, :description, :price, :trade, :category_id, images: [])
     end
 end

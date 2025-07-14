@@ -32,7 +32,7 @@ const SelectImages = ({ images, onChange }: Props) => {
       const selectedImages = result.assets.map((asset) => ({
         uri: asset.uri,
         name: asset.fileName ?? "image.jpg",
-        type: asset.type ?? "image/jpeg",
+        type: "image/jpeg",
       }));
       onChange(selectedImages);
     }
@@ -40,16 +40,16 @@ const SelectImages = ({ images, onChange }: Props) => {
 
   return (
     <View>
-      <Button
-        icon="image"
-        mode="outlined"
-        onPress={selectImages}
-        style={{ marginTop: 10 }}
-      >
+      <Button icon="image" mode="outlined" onPress={selectImages}>
         Select images
       </Button>
 
-      <ScrollView horizontal style={{ marginTop: 10 }}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled={true}
+        horizontal
+        style={{ marginTop: 10 }}
+      >
         {images.map((image, index) => (
           <View
             key={index}

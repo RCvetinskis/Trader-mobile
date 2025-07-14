@@ -12,3 +12,11 @@ export const getCategories = async () => {
 
   return response.data;
 };
+
+export const getSubCategories = async (parent_id: number) => {
+  const response = await apiClient.get("api/v1/categories/sub_categories", {
+    params: { parent_id },
+  });
+
+  return response.data;
+};

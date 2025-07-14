@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import { generateAxiosErrorMessage } from "../utils/general-helpers";
-import apiClient from "../lib/api/api-client";
+import apiClient, { CustomAxiosRequestConfig } from "../lib/api/api-client";
 
 type AuthState = {
   user: any;
@@ -45,7 +44,9 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     await AsyncStorage.removeItem("auth_token");
-    await apiClient.delete("/users/sign_out");
+    await apiClient.delete("/users/sign_out", {
+      skipAuthInterceptor: true,
+    } as CustomAxiosRequestConfig);
     delete apiClient.defaults.headers.common["Authorization"];
     set({ user: null, token: null });
   },
