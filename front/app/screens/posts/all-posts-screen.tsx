@@ -7,11 +7,11 @@ import SubCategoriesNav from "../../components/subcategories-nav";
 
 const AllPostsScreen = () => {
   return (
-    <ScreenContainer >
+    <ScreenContainer>
       <CategoriesNav />
       <Divider />
       <SubCategoriesNav />
-      <PostsList />
+      <PostsList type="default" />
     </ScreenContainer>
   );
 };

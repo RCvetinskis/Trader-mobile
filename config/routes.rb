@@ -14,10 +14,22 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :posts
+      resources :posts do
+         collection do
+          get :current_user_posts
+          get :most_favorited_posts
+        end
+        member do
+          post :favorite, to: "posts_favorites#create"
+          delete :favorite, to: "posts_favorites#destroy"
+        end
+      end
+
       resources :categories do
-      get "sub_categories", on: :collection
-    end
+        collection do
+           get :sub_categories
+        end
+      end
     end
   end
 end

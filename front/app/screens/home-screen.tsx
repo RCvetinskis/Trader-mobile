@@ -4,7 +4,7 @@ import PostsList from "../components/posts/posts-list";
 const HomeScreen = () => {
   return (
     <ScreenContainer>
-      <PostsList />
+      <PostsList type="most_favorited"/>
     </ScreenContainer>
   );
 };

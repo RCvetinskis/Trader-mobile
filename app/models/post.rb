@@ -2,6 +2,9 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  has_many :post_favorites, dependent: :destroy
+  has_many :favorite_users, through: :post_favorites, source: :user
+
   has_many_attached :images
 
   validates :category, presence: true
@@ -13,6 +16,12 @@ class Post < ApplicationRecord
 
   scope :search_by_title, ->(query) {
     where("LOWER(title) LIKE ?", "%#{query.to_s.downcase}%") if query.present?
+  }
+
+  scope :most_favorited, -> {
+  left_joins(:post_favorites)
+    .group("posts.id")
+    .order("COUNT(post_favorites.id) DESC")
   }
 
    private

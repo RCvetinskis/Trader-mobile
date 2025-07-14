@@ -13,11 +13,11 @@ import usePosts from "../../hooks/usePosts";
 
 const windowWidth = Dimensions.get("window").width;
 type Props = {
-  myPosts?: boolean;
+  type: "default" | "my_posts" | "most_favorited";
 };
-const PostsList = ({ myPosts }: Props) => {
+const PostsList = ({ type }: Props) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    usePosts({ myPosts });
+    usePosts({ type });
 
   if (isLoading) return <ActivityIndicator animating={true} />;
 
@@ -34,7 +34,7 @@ const PostsList = ({ myPosts }: Props) => {
       numColumns={2}
       renderItem={({ item }) => (
         <View style={styles.itemContainer} key={item.id}>
-          <PostCard product={item} />
+          <PostCard post={item} />
         </View>
       )}
       onEndReached={() => {

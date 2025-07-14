@@ -1,7 +1,7 @@
 
 class PostSerializer < ActiveModel::Serializer
 attributes :id, :title, :description, :created_at,
-             :updated_at, :category_id, :user_id, :images, :price, :trade
+             :updated_at, :category_id, :user_id, :images, :price, :trade, :is_favorited
 
   def images
     object.images.map do |image|
@@ -12,6 +12,10 @@ attributes :id, :title, :description, :created_at,
         url: url_for_image(image)
       }
     end
+  end
+
+  def is_favorited
+    scope.present? && object.post_favorites.exists?(user_id: scope.id)
   end
 
   private
