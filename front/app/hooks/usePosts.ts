@@ -3,8 +3,10 @@ import { getPosts, PostsResponse } from "../lib/api/posts-api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRoute } from "@react-navigation/native";
 import { AllPostsProp } from "../lib/types";
-
-const usePosts = () => {
+type Props = {
+  myPosts?: boolean;
+};
+const usePosts = ({ myPosts }: Props) => {
   const route = useRoute<AllPostsProp>();
   const searchQuery = route.params?.search ?? "";
 
@@ -22,6 +24,7 @@ const usePosts = () => {
       queryFn: async ({ pageParam = 1 }) =>
         getPosts(
           pageParam as number,
+          myPosts,
           selectedSubCategory?.id ?? selectedCategory?.id,
           searchQuery
         ),

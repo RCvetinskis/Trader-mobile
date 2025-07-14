@@ -34,7 +34,7 @@ const CustomDrawerContent = (props: any) => {
             <List.Item
               title="My Posts"
               left={() => <List.Icon icon="account-card" />}
-              onPress={() => props.navigation.navigate("MyPosts")}
+              onPress={() => props.navigation.navigate("My Posts")}
             />
             <List.Item
               title="All Posts"
