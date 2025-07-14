@@ -24,6 +24,10 @@ def index
     posts = posts.search_by_title(params[:query])
   end
 
+  if params[:my_posts].present?
+   posts = current_user.posts
+  end
+
   posts = posts.page(params[:page]).per(10)
 
   render json: posts, each_serializer: PostSerializer, meta: pagination_dict(posts)

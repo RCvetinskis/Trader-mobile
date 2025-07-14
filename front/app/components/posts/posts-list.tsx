@@ -12,10 +12,12 @@ import NoDataFound from "../no-data-found";
 import usePosts from "../../hooks/usePosts";
 
 const windowWidth = Dimensions.get("window").width;
-
-const PostsList = () => {
+type Props = {
+  myPosts?: boolean;
+};
+const PostsList = ({ myPosts }: Props) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    usePosts();
+    usePosts({ myPosts });
 
   if (isLoading) return <ActivityIndicator animating={true} />;
 

@@ -23,12 +23,17 @@ export interface PostsResponse {
 
 export const getPosts = async (
   page = 1,
+  myPosts = false,
   categoryId?: number,
   query?: string
 ): Promise<PostsResponse> => {
   const params = new URLSearchParams({ page: page.toString() });
 
   if (categoryId) params.append("category_id", categoryId.toString());
+
+  if (myPosts) {
+    params.append("my_posts", "true");
+  }
 
   if (query) {
     params.append("query", query);
