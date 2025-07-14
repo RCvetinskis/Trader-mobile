@@ -6,7 +6,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import useCategories from "../hooks/useCategories";
 import useCategoryNavigationStore from "../stores/category-navigation-store";
 
-const CategoriesNav = () => {
+const SubCategoriesNav = () => {
   const { selectedCategory, selectedSubCategory, setSelectedSubCategory } =
     useCategoryNavigationStore();
   const { getSubCategoriesQuery } = useCategories();
@@ -51,7 +51,7 @@ const CategoriesNav = () => {
   );
 };
 
-export default CategoriesNav;
+export default SubCategoriesNav;
 
 const useStyles = (colors: MD3Colors) =>
   StyleSheet.create({

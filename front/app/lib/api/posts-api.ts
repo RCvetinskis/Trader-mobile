@@ -23,10 +23,16 @@ export interface PostsResponse {
 
 export const getPosts = async (
   page = 1,
-  categoryId?: number
+  categoryId?: number,
+  query?: string
 ): Promise<PostsResponse> => {
   const params = new URLSearchParams({ page: page.toString() });
+
   if (categoryId) params.append("category_id", categoryId.toString());
+
+  if (query) {
+    params.append("query", query);
+  }
 
   const response = await apiClient.get(`api/v1/posts?${params}`);
   return response.data;

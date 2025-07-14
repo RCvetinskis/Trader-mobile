@@ -11,6 +11,10 @@ class Post < ApplicationRecord
 
   validate :price_or_trade_required
 
+  scope :search_by_title, ->(query) {
+    where("LOWER(title) LIKE ?", "%#{query.to_s.downcase}%") if query.present?
+  }
+
    private
 
   def price_or_trade_required

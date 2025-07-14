@@ -29,7 +29,7 @@ const CustomDrawerContent = (props: any) => {
             <List.Item
               title="Create Post"
               left={() => <List.Icon icon="folder-plus" />}
-              onPress={() => props.navigation.navigate("CreatePost")}
+              onPress={() => props.navigation.navigate("Create Post")}
             />
             <List.Item
               title="My Posts"
@@ -39,7 +39,7 @@ const CustomDrawerContent = (props: any) => {
             <List.Item
               title="All Posts"
               left={() => <List.Icon icon="post" />}
-              onPress={() => props.navigation.navigate("AllPosts")}
+              onPress={() => props.navigation.navigate("All Posts")}
             />
           </List.Accordion>
         </List.Section>

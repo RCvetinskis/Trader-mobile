@@ -17,7 +17,6 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createPostSchema } from "../../lib/schemas/zod-schemas";
-import { commonStyles } from "../../styles/common.style";
 import SelectImages from "../select-images";
 import { ImageType } from "../../lib/types";
 import useCategories from "../../hooks/useCategories";

@@ -6,32 +6,16 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPosts, PostsResponse } from "../../lib/api/posts-api";
+
 import PostCard from "./post-card";
-import useCategoryNavigationStore from "../../stores/category-navigation-store";
 import NoDataFound from "../no-data-found";
+import usePosts from "../../hooks/usePosts";
 
 const windowWidth = Dimensions.get("window").width;
-// TODO: search, create category, display  my posts, favorites
+
 const PostsList = () => {
-  const { selectedCategory, selectedSubCategory } =
-    useCategoryNavigationStore();
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery<PostsResponse, Error>({
-      queryKey: ["posts", selectedCategory?.id, selectedSubCategory?.id],
-      queryFn: async ({ pageParam = 1 }) =>
-        getPosts(
-          pageParam as number,
-          selectedSubCategory?.id ?? selectedCategory?.id
-        ),
-
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        return lastPage.meta.next_page ?? undefined;
-      },
-    });
+    usePosts();
 
   if (isLoading) return <ActivityIndicator animating={true} />;
 

@@ -20,6 +20,10 @@ def index
     end
   end
 
+  if params[:query].present?
+    posts = posts.search_by_title(params[:query])
+  end
+
   posts = posts.page(params[:page]).per(10)
 
   render json: posts, each_serializer: PostSerializer, meta: pagination_dict(posts)
