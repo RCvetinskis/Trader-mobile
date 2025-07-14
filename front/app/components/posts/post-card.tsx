@@ -4,25 +4,33 @@ import { Post } from "../../lib/api/posts-api";
 import noImage from "../../../assets/no_image.jpeg";
 import { Image, StyleSheet } from "react-native";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import usePosts from "../../hooks/usePosts";
+
 type Props = {
-  product: Post;
+  post: Post;
 };
-const PostCard = ({ product }: Props) => {
+
+const PostCard = ({ post }: Props) => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
-  const imageSource = product?.images?.[0]?.url
-    ? { uri: product.images[0].url }
+
+  const imageSource = post?.images?.[0]?.url
+    ? { uri: post.images[0].url }
     : Image.resolveAssetSource(noImage);
+
+  const { toggleFavorite } = usePosts({});
 
   return (
     <Card style={styles.card}>
       <Card.Cover source={imageSource} style={styles.image} />
       <Card.Content style={styles.content}>
         <Text variant="titleMedium" style={styles.title}>
-          {product.title}
+          {post.title}
         </Text>
-        {product.price ? (
-          <Chip icon="currency-usd" style={styles.chip}>{product.price}</Chip>
+        {post.price ? (
+          <Chip icon="currency-usd" style={styles.chip}>
+            {post.price}
+          </Chip>
         ) : (
           <Chip style={styles.chip} icon="handshake">
             Trade
@@ -30,7 +38,19 @@ const PostCard = ({ product }: Props) => {
         )}
       </Card.Content>
       <Card.Actions>
-        <IconButton icon={"heart"} iconColor={colors.primary} size={20} />
+        <IconButton
+          disabled={toggleFavorite.isPending}
+          onPress={() =>
+            toggleFavorite.mutate({
+              postId: post.id,
+              isFavorited: post.is_favorited,
+            })
+          }
+          selected={post.is_favorited}
+          icon="heart"
+          iconColor={colors.primary}
+          size={20}
+        />
       </Card.Actions>
     </Card>
   );

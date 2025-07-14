@@ -11,7 +11,6 @@ def index
 
     if category.present?
       if category.subcategories.any?
-
         subcategory_ids = category.subcategories.pluck(:id)
         posts = posts.where(category_id: subcategory_ids)
       else
@@ -24,18 +23,26 @@ def index
     posts = posts.search_by_title(params[:query])
   end
 
-  if params[:my_posts].present?
-   posts = current_user.posts
-  end
-
   posts = posts.page(params[:page]).per(10)
 
-  render json: posts, each_serializer: PostSerializer, meta: pagination_dict(posts)
+  render json: posts, each_serializer: PostSerializer, scope: current_user, meta: pagination_dict(posts)
 end
 
   # GET /posts/1
   def show
     render json: @post
+  end
+
+  def current_user_posts
+    posts = current_user.posts.order(created_at: :desc)
+    posts = posts.page(params[:page]).per(10)
+    render json: posts, each_serializer: PostSerializer, scope: current_user, meta: pagination_dict(posts)
+  end
+
+  def most_favorited_posts
+    posts = Post.most_favorited.order(created_at: :desc)
+    posts = posts.page(params[:page]).per(10)
+    render json: posts, each_serializer: PostSerializer, scope: current_user, meta: pagination_dict(posts)
   end
 
   # POST /posts

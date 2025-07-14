@@ -13,6 +13,7 @@ export interface Post {
   user_id: number;
   images: IImage[];
   trade: boolean;
+  is_favorited: boolean;
   price?: string;
 }
 
@@ -23,7 +24,6 @@ export interface PostsResponse {
 
 export const getPosts = async (
   page = 1,
-  myPosts = false,
   categoryId?: number,
   query?: string
 ): Promise<PostsResponse> => {
@@ -31,16 +31,65 @@ export const getPosts = async (
 
   if (categoryId) params.append("category_id", categoryId.toString());
 
-  if (myPosts) {
-    params.append("my_posts", "true");
-  }
-
   if (query) {
     params.append("query", query);
   }
 
   const response = await apiClient.get(`api/v1/posts?${params}`);
   return response.data;
+};
+
+export const getCurrentUserPosts = async (page = 1): Promise<PostsResponse> => {
+  const params = new URLSearchParams({ page: page.toString() });
+
+  const response = await apiClient.get(
+    `api/v1/posts/current_user_posts?${params}`
+  );
+  return response.data;
+};
+
+export const getMostFavoritedPosts = async (
+  page = 1
+): Promise<PostsResponse> => {
+  const params = new URLSearchParams({ page: page.toString() });
+
+  const response = await apiClient.get(
+    `api/v1/posts/most_favorited_posts?${params}`
+  );
+  return response.data;
+};
+
+export const addFavoritePost = async (postId: number) => {
+  try {
+    const response = await apiClient.post(`/api/v1/posts/${postId}/favorite`);
+    return Toast.show({
+      type: "success",
+      text1: response.data.message,
+    });
+  } catch (error) {
+    return Toast.show({
+      type: "error",
+      text1: "Failed to save post",
+      text2: generateAxiosErrorMessage(error),
+    });
+  }
+};
+
+export const removeFavoritePost = async (postId: number) => {
+  try {
+    const response = await apiClient.delete(`/api/v1/posts/${postId}/favorite`);
+
+    return Toast.show({
+      type: "success",
+      text1: response.data.message,
+    });
+  } catch (error) {
+    return Toast.show({
+      type: "error",
+      text1: "Failed to remove post",
+      text2: generateAxiosErrorMessage(error),
+    });
+  }
 };
 
 interface UploadPost {

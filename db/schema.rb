@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_15_124956) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_14_200259) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_15_124956) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
+  create_table "post_favorites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_favorites_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_post_favorites_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_post_favorites_on_user_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -82,6 +92,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_15_124956) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "categories", "users"
+  add_foreign_key "post_favorites", "posts"
+  add_foreign_key "post_favorites", "users"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end
