@@ -35,7 +35,6 @@ const usePosts = ({ type = "default" }: Props) => {
       case "most_favorited":
         return getMostFavoritedPosts(pageParam);
       case "user_favorites":
-        console.log("TRIGGERED CASE?");
         return getCurrentUserFavoritePosts(pageParam);
       case "default":
       default:

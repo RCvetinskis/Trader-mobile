@@ -16,7 +16,6 @@ type Props = {
   type: "default" | "my_posts" | "most_favorited" | "user_favorites";
 };
 const PostsList = ({ type }: Props) => {
-  console.log('TYPE:', type)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     usePosts({ type });
 

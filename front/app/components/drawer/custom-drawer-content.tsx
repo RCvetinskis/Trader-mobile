@@ -48,6 +48,12 @@ const CustomDrawerContent = (props: any) => {
               onPress={() => props.navigation.navigate("All Posts")}
             />
           </List.Accordion>
+
+          <List.Item
+            title="Messages"
+            left={() => <List.Icon icon="message" />}
+            onPress={() => props.navigation.navigate("Conversations")}
+          />
         </List.Section>
       </DrawerContentScrollView>
 
