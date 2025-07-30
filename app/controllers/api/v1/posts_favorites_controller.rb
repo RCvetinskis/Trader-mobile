@@ -2,6 +2,17 @@ class Api::V1::PostsFavoritesController < ApplicationController
   # before_action :authorize!, only: %i[index create update destroy]
   before_action :set_post, only: %i[create destroy]
 
+  def index
+      posts = Post
+              .joins(:post_favorites)
+              .where(post_favorites: { user_id: current_user.id })
+              .order("post_favorites.created_at DESC")
+              .page(params[:page])
+              .per(10)
+
+    render json: posts, each_serializer: PostSerializer, scope: current_user, meta: pagination_dict(posts)
+  end
+
   def create
     post_favorite = @post.post_favorites.find_or_create_by(user: current_user)
 

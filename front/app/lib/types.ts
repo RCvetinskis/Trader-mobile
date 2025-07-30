@@ -22,6 +22,7 @@ export type RootStackParamList = {
   "All Posts": undefined | { search?: string };
 };
 
+
 export type ImageType = { uri: string; name: string; type: string };
 
 export type AllPostsProp = RouteProp<RootStackParamList, "All Posts">;
