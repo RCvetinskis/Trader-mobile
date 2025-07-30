@@ -20,9 +20,10 @@ export type RootStackParamList = {
   Home: undefined;
   Posts: undefined;
   "All Posts": undefined | { search?: string };
+  Conversation: { conversationId: number };
 };
 
-
+export type MobileScreenTypes = "chat" | "settings";
 export type ImageType = { uri: string; name: string; type: string };
 
 export type AllPostsProp = RouteProp<RootStackParamList, "All Posts">;

@@ -7,6 +7,7 @@ import GlobalSearch from "../global_search";
 import AllPostsScreen from "../../screens/posts/all-posts-screen";
 import MyPostsScreen from "../../screens/posts/my-posts-screen";
 import FavoritePostsScreen from "../../screens/posts/favorite-posts-screen";
+import ConversationIndex from "../../screens/conversations/conversation-index";
 
 const AppDrawer = () => {
   const Drawer = createDrawerNavigator();
@@ -19,10 +20,13 @@ const AppDrawer = () => {
       })}
     >
       <Drawer.Screen name="Home" component={HomeScreen} />
+      {/* Posts */}
       <Drawer.Screen name="Create Post" component={CreatePostScreen} />
       <Drawer.Screen name="All Posts" component={AllPostsScreen} />
       <Drawer.Screen name="My Posts" component={MyPostsScreen} />
       <Drawer.Screen name="My Favorite" component={FavoritePostsScreen} />
+      {/* Conversations */}
+      <Drawer.Screen name="Conversations" component={ConversationIndex} />
     </Drawer.Navigator>
   );
 };

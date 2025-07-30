@@ -63,11 +63,9 @@ export const getCurrentUserFavoritePosts = async (
   page = 1
 ): Promise<PostsResponse> => {
   const params = new URLSearchParams({ page: page.toString() });
-  console.log('PARAMS:', params)
   const response = await apiClient.get(
     `api/v1/posts/user_favorites?${params}`
   );
-  console.log('RESPONSE:', response)
   return response.data;
 };
 

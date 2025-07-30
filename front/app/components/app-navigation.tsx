@@ -6,6 +6,7 @@ import LoginScreen from "../screens/auth/login-screen";
 import RegisterScreen from "../screens/auth/register-screen";
 import { useAuthStore } from "../stores/auth-store";
 import { navigationRef } from "../navigation/navigation-service";
+import Conversation from "./conversation/conversation";
 
 const RootStack = createNativeStackNavigator();
 
@@ -16,7 +17,10 @@ const AppNavigation = () => {
     <NavigationContainer ref={navigationRef}>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         {token ? (
-          <RootStack.Screen name="App" component={AppDrawer} />
+          <>
+            <RootStack.Screen name="App" component={AppDrawer} />
+            <RootStack.Screen name="Conversation" component={Conversation} />
+          </>
         ) : (
           <>
             <RootStack.Screen name="Login" component={LoginScreen} />
