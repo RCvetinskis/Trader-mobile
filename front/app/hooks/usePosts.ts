@@ -5,6 +5,7 @@ import {
   removeFavoritePost,
   PostsResponse,
   getMostFavoritedPosts,
+  getCurrentUserFavoritePosts,
 } from "../lib/api/posts-api";
 import {
   useInfiniteQuery,
@@ -16,7 +17,7 @@ import useCategoryNavigationStore from "../stores/category-navigation-store";
 import { AllPostsProp } from "../lib/types";
 
 type Props = {
-  type?: "default" | "my_posts" | "most_favorited";
+  type?: "default" | "my_posts" | "most_favorited" | "user_favorites";
 };
 
 const usePosts = ({ type = "default" }: Props) => {
@@ -33,6 +34,9 @@ const usePosts = ({ type = "default" }: Props) => {
         return getCurrentUserPosts(pageParam);
       case "most_favorited":
         return getMostFavoritedPosts(pageParam);
+      case "user_favorites":
+        console.log("TRIGGERED CASE?");
+        return getCurrentUserFavoritePosts(pageParam);
       case "default":
       default:
         return getPosts(

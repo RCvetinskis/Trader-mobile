@@ -18,6 +18,7 @@ Rails.application.routes.draw do
          collection do
           get :current_user_posts
           get :most_favorited_posts
+          get :user_favorites, to: "posts_favorites#index"
         end
         member do
           post :favorite, to: "posts_favorites#create"

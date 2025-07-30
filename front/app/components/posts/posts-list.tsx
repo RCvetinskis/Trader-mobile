@@ -13,9 +13,10 @@ import usePosts from "../../hooks/usePosts";
 
 const windowWidth = Dimensions.get("window").width;
 type Props = {
-  type: "default" | "my_posts" | "most_favorited";
+  type: "default" | "my_posts" | "most_favorited" | "user_favorites";
 };
 const PostsList = ({ type }: Props) => {
+  console.log('TYPE:', type)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     usePosts({ type });
 
@@ -25,7 +26,7 @@ const PostsList = ({ type }: Props) => {
 
   if (!posts.length)
     return (
-      <NoDataFound description=" Try selecting a different category or come back later." />
+      <NoDataFound description="Try selecting a different category or come back later." />
     );
   return (
     <FlatList
